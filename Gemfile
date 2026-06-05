@@ -18,7 +18,6 @@ group :jekyll_plugins do
   gem "jekyll-sitemap"
   gem "jekyll-feed"
   gem "jekyll-seo-tag"
-  gem "jekyll-include-cache"
 end
 
 # Windows 用户如遇安装问题，取消下面注释
