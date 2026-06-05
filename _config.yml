@@ -1,59 +1,20 @@
-# ----------------------------------------
 # 钱智汇 · 保险理财指南
-# Money Smart CN - Jekyll Configuration
-# ----------------------------------------
+# 最精简配置，确保 GitHub Pages 构建成功
 
-# === 基础信息 ===
 title: "钱智汇"
-subtitle: "保险理财指南 · 选对不选贵"
-description: "专注保险测评、理财规划、个人养老。帮你用最少的钱，配最好的保障。"
+subtitle: "保险理财指南"
+description: "专注保险测评、理财规划、个人养老。"
 baseurl: "/money-smart-cn"
 url: "https://mayouxilover.github.io"
 
-# === 作者信息 ===
-author:
-  name: "钱智汇编辑部"
-  email: "contact@moneysmart.cn"
-  description: "保险/理财科普作者，专注让复杂的金融产品变简单。"
-
-# === 构建设置 ===
 markdown: kramdown
 highlighter: rouge
-permalink: /:categories/:title/
-paginate: 8
-paginate_path: "/page:num"
-
-# === 主题（GitHub Pages 原生支持） ===
 theme: jekyll-theme-minima
 
-# === 插件（GitHub Pages 环境可用） ===
 plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
   - jekyll-feed
-  - jekyll-seo-tag
+  - jekyll-sitemap
 
-# === SEO ===
-# twitter_username: ""
-# facebook_app_id: ""
-
-# === 分类 & 标签 ===
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  - scope:
-      path: "categories"
-    values:
-      layout: "page"
-  - scope:
-      path: "tags"
-    values:
-      layout: "page"
-
-# === 排除文件 ===
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -61,24 +22,3 @@ exclude:
   - .gitignore
   - articles_outline.json
   - keywords_research.json
-  - _drafts
-
-# === 时区 ===
-timezone: Asia/Shanghai
-
-# === 代码高亮 ===
-kramdown:
-  input: GFM
-  auto_ids: true
-  toc_levels: 1..3
-
-# === 底部信息 ===
-footer_links:
-  - title: "关于本站"
-    url: "/about/"
-  - title: "分类目录"
-    url: "/categories/"
-  - title: "标签索引"
-    url: "/tags/"
-  - title: "RSS订阅"
-    url: "/feed.xml"
