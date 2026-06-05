@@ -1,0 +1,122 @@
+[
+  {
+    "keyword": "重大疾病保险哪个好",
+    "intent": "购买决策/产品对比",
+    "estimated_cpm": "¥60-120",
+    "article_angle": "2025年重疾险横向测评，对比平安、国寿、友邦等主流产品，附选购指南"
+  },
+  {
+    "keyword": "养老保险怎么买划算",
+    "intent": "购买决策/长期规划",
+    "estimated_cpm": "¥50-100",
+    "article_angle": "不同收入人群的养老规划方案，商业养老险vs社保全面对比"
+  },
+  {
+    "keyword": "医疗保险报销比例",
+    "intent": "信息查询/实用指南",
+    "estimated_cpm": "¥40-80",
+    "article_angle": "2025年医保新政解读，各地报销比例一览表，补充医疗险推荐"
+  },
+  {
+    "keyword": "车险哪家便宜",
+    "intent": "价格对比/购买决策",
+    "estimated_cpm": "¥30-70",
+    "article_angle": "2025年十大车险公司报价对比，隐藏条款避坑指南"
+  },
+  {
+    "keyword": "保险理赔流程",
+    "intent": "问题解决/实用指南",
+    "estimated_cpm": "¥45-90",
+    "article_angle": "理赔被拒怎么办？一步步教你顺利拿到保险赔款"
+  },
+  {
+    "keyword": "香港保险vs内地保险",
+    "intent": "对比决策",
+    "estimated_cpm": "¥70-130",
+    "article_angle": "港险真的更划算吗？2025年最新政策下的全面对比分析"
+  },
+  {
+    "keyword": "保险退保能退多少钱",
+    "intent": "损失计算/问题解决",
+    "estimated_cpm": "¥35-75",
+    "article_angle": "退保计算公式详解，哪些情况退保不亏？现金价值怎么查"
+  },
+  {
+    "keyword": "重疾险和医疗险区别",
+    "intent": "知识科普/购买决策",
+    "estimated_cpm": "¥55-110",
+    "article_angle": "一张表看懂两类保险的区别，预算有限先买哪个？"
+  },
+  {
+    "keyword": "保险受益人指定",
+    "intent": "操作指南/法律科普",
+    "estimated_cpm": "¥40-85",
+    "article_angle": "受益人怎么指定才有效？法定受益人和指定受益人区别"
+  },
+  {
+    "keyword": "少儿保险推荐",
+    "intent": "购买决策/产品推荐",
+    "estimated_cpm": "¥45-95",
+    "article_angle": "2025年性价比最高的5款少儿重疾险测评，0-18岁投保方案"
+  },
+  {
+    "keyword": "理财产品排行榜",
+    "intent": "产品对比/投资决策",
+    "estimated_cpm": "¥35-75",
+    "article_angle": "2025年Q2理财产品收益排行，银行理财vs券商资管全面对比"
+  },
+  {
+    "keyword": "基金定投怎么操作",
+    "intent": "操作指南/投资决策",
+    "estimated_cpm": "¥25-60",
+    "article_angle": "基金定投完整教程，微笑曲线原理，选哪只基金年化收益最高"
+  },
+  {
+    "keyword": "银行存款利率2025",
+    "intent": "信息查询/投资决策",
+    "estimated_cpm": "¥20-50",
+    "article_angle": "2025年六大国有银行存款利率对比，大额存单值不值得买？"
+  },
+  {
+    "keyword": "养老金个人账户查询",
+    "intent": "操作指南/信息查询",
+    "estimated_cpm": "¥30-65",
+    "article_angle": "养老金账户怎么查？缴费基数和退休金计算公式详解"
+  },
+  {
+    "keyword": "股票开户哪家券商好",
+    "intent": "对比决策/开户指南",
+    "estimated_cpm": "¥28-60",
+    "article_angle": "2025年十大券商佣金对比，开户送福利哪家最划算？"
+  },
+  {
+    "keyword": "公积金提取条件",
+    "intent": "操作指南/政策解读",
+    "estimated_cpm": "¥25-55",
+    "article_angle": "2025年公积金提取新规，租房、买房、离职怎么取最划算？"
+  },
+  {
+    "keyword": "税收筹划合法方法",
+    "intent": "知识科普/节税方案",
+    "estimated_cpm": "¥80-150",
+    "article_angle": "个人合法节税的10种方法，个税专项扣除这样填报多退几千元"
+  },
+  {
+    "keyword": "信托产品安全吗",
+    "intent": "风险评估/投资决策",
+    "estimated_cpm": "¥65-125",
+    "article_angle": "信托产品风险全解析，哪些情况可能血本无归？如何选择安全产品"
+  },
+  {
+    "keyword": "失业保险金怎么领",
+    "intent": "操作指南/政策解读",
+    "estimated_cpm": "¥30-60",
+    "article_angle": "2025年失业金申领条件，能领多少钱？主动辞职能领吗？"
+  },
+  {
+    "keyword": "增额终身寿险靠谱吗",
+    "intent": "产品评估/购买决策",
+    "estimated_cpm": "¥55-115",
+    "article_angle": "增额终身寿险深度测评，IRR真实收益率计算，哪些产品不值得买"
+  }
+]
