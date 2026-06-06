@@ -364,6 +364,19 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   {json_ld_article}
   {json_ld_faq}
   {json_ld_breadcrumb}
+  <!-- Google Consent Mode v2 - GDPR/EEA CMP -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('consent', 'default', {{
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    }});
+  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
@@ -444,6 +457,19 @@ def render_index(articles):
   {og_tags}
   {json_ld_website}
   {json_ld_org}
+  <!-- Google Consent Mode v2 - GDPR/EEA CMP -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('consent', 'default', {{
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    }});
+  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
@@ -494,6 +520,19 @@ def render_about():
   <meta name="twitter:title" content="关于钱智汇">
   <meta name="twitter:description" content="了解钱智汇的使命、内容标准和联系方式。">
   {json_ld_org}
+  <!-- Google Consent Mode v2 - GDPR/EEA CMP -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('consent', 'default', {{
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    }});
+  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
@@ -556,6 +595,19 @@ def render_privacy_policy():
   <meta property="og:description" content="钱智汇隐私政策">
   <meta property="og:url" content="{page_url}">
   <meta property="og:type" content="website">
+  <!-- Google Consent Mode v2 - GDPR/EEA CMP -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('consent', 'default', {{
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    }});
+  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
@@ -623,6 +675,19 @@ def render_contact():
   <meta property="og:description" content="钱智汇联系方式">
   <meta property="og:url" content="{page_url}">
   <meta property="og:type" content="website">
+  <!-- Google Consent Mode v2 - GDPR/EEA CMP -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('consent', 'default', {{
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    }});
+  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
@@ -675,6 +740,19 @@ def render_terms():
   <meta property="og:description" content="钱智汇服务条款">
   <meta property="og:url" content="{page_url}">
   <meta property="og:type" content="website">
+  <!-- Google Consent Mode v2 - GDPR/EEA CMP -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('consent', 'default', {{
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    }});
+  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
@@ -753,6 +831,19 @@ def render_category_index(category_name, articles):
   <meta property="og:site_name" content="钱智汇">
   {json_ld_bc}
   {json_ld_col}
+  <!-- Google Consent Mode v2 - GDPR/EEA CMP -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('consent', 'default', {{
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    }});
+  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
@@ -813,6 +904,19 @@ def render_tag_index(tag_name, articles):
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="钱智汇">
   {json_ld_bc}
+  <!-- Google Consent Mode v2 - GDPR/EEA CMP -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('consent', 'default', {{
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    }});
+  </script>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
   <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
