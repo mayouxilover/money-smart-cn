@@ -14,6 +14,9 @@ image: images/million-medical/cover.png
 
 ---
 
+
+![](/images/million-medical/cover.png)
+
 ## 一个真实理赔故事：22万医疗费，为什么只报了16万？
 
 2024年8月，杭州的刘女士（35岁）因甲状腺癌住院手术。住院18天，总费用**22.3万元**。
@@ -65,6 +68,7 @@ image: images/million-medical/cover.png
 
 ## 2025年20款百万医疗险横向测评
 
+![](/images/million-medical/comparison.png)
 ![20款百万医疗险核心指标横向对比](images/million-medical/comparison.png)
 
 以下数据基于各产品2025年最新条款，以**30岁、有社保**的被保险人为基准。保费为年交首年价格。
@@ -147,6 +151,7 @@ image: images/million-medical/cover.png
 ---
 
 ## 不同年龄段选购指南
+![](/images/million-medical/hidden-clauses.png)
 
 | 年龄段 | 推荐方案 | 年预算 | 注意事项 |
 |--------|---------|:-----:|------|

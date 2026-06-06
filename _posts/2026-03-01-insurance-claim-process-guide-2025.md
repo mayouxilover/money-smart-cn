@@ -13,6 +13,9 @@ description: "2025年最全保险理赔流程指南：从报案到打款step by 
 
 ---
 
+
+![](/images/claim-process/cover.png)
+
 ## 保险理赔的标准流程（Step by Step）
 
 很多人出险后手忙脚乱，错过最佳报案时机，导致理赔延误甚至被拒。正确流程如下：
@@ -107,6 +110,7 @@ description: "2025年最全保险理赔流程指南：从报案到打款step by 
 
 ## 这8种情况，保险公司必须赔（法院判例支持）
 
+![](/images/claim-process/checklist.png)
 以下是**法院明确支持的8种必须赔情形**，如果你遇到这些情况被拒赔，坚决维权，胜诉率极高：
 
 | 序号 | 情形 | 法律依据/判例要点 |
@@ -178,6 +182,7 @@ description: "2025年最全保险理赔流程指南：从报案到打款step by 
 ---
 
 ## 理赔纠纷怎么解决？投诉渠道全汇总
+![](/images/claim-process/process.png)
 
 如果与保险公司协商无果，可以通过以下渠道维权：
 

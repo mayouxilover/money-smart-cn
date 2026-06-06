@@ -14,6 +14,9 @@ image: images/personal-pension/cover.png
 
 ---
 
+
+![](/images/personal-pension/cover.png)
+
 ## 一个35岁上班族的灵魂拷问：个人养老金到底值不值得开？
 
 王浩，35岁，上海某科技公司产品经理，月薪2.8万，年终奖3个月。每年个税约2.3万元，到手现金流压力不小。
@@ -57,6 +60,7 @@ image: images/personal-pension/cover.png
 
 ## 存进去的12000元怎么投资？4类产品深度对比
 
+![](/images/personal-pension/products.png)
 钱存进个人养老金账户后，不会自动增值——你需要主动选择投资产品。目前有4类可选：
 
 ![四类个人养老金投资产品象限对比](images/personal-pension/products.png)
@@ -152,6 +156,7 @@ image: images/personal-pension/cover.png
 ---
 
 ## 谁该开？谁不该开？一张表说清楚
+![](/images/personal-pension/tax-savings.png)
 
 | 你的情况 | 建议 | 理由 |
 |---------|:----:|------|

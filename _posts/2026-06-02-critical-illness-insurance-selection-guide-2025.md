@@ -14,6 +14,9 @@ image: images/critical-illness/cover.png
 
 ---
 
+
+![](/images/critical-illness/cover.png)
+
 ## 一个真实理赔故事：为什么50万保额只赔了20万？
 
 2024年3月，武汉的陈女士（41岁）摸到乳房有肿块，去医院检查——确诊为乳腺癌（II期）。
@@ -82,6 +85,7 @@ image: images/critical-illness/cover.png
 
 ## 第三步：单次赔付 vs 多次分组 vs 多次不分组
 
+![](/images/critical-illness/comparison.png)
 这是陈女士踩的坑——也是重疾险最核心的选择维度。
 
 | 类型 | 赔付方式 | 30岁·50万·年保费 | 二次获赔概率 |
@@ -168,6 +172,7 @@ image: images/critical-illness/cover.png
 ---
 
 ## 2025年热门产品速览
+![](/images/critical-illness/pitfalls.png)
 
 | 产品 | 类型 | 30岁·50万·年保费 | 特色 |
 |------|------|:-----:|------|

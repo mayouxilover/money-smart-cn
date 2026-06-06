@@ -14,6 +14,9 @@ image: images/family-asset/cover.png
 
 ---
 
+
+![](/images/family-asset/cover.png)
+
 ## 一个月入3.2万家庭的财务真相：赚得不少，为什么存不下钱？
 
 林然（29岁）和妻子（28岁）住在深圳南山，两人都是互联网公司员工，月收入合计约3.2万。
@@ -57,6 +60,7 @@ image: images/family-asset/cover.png
 
 ## 林然家的四账户改造方案
 
+![](/images/family-asset/allocation.png)
 ### 改造前 vs 改造后
 
 | 维度 | 改造前 | 改造后 |
@@ -162,6 +166,7 @@ image: images/family-asset/cover.png
 ---
 
 ## 5个最常见的资产配置误区
+![](/images/family-asset/four-accounts.png)
 
 ### 误区一：全部钱放在一个账户
 
