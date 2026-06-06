@@ -396,7 +396,7 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="../index.html">首页</a> · <a href="../about.html">关于</a></p>
+      <p><a href="../index.html">首页</a> - <a href="../about.html">关于</a> - <a href="../privacy.html">隐私政策</a> - <a href="../contact.html">联系我们</a> - <a href="../terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -462,7 +462,7 @@ def render_index(articles):
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="./index.html">首页</a> · <a href="./about.html">关于</a></p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -470,38 +470,243 @@ def render_index(articles):
 
 def render_about():
     """渲染关于页面"""
+    page_url = SITE_URL + "/about.html"
+    json_ld_org = f'<script type="application/ld+json">{make_schema_organization()}</script>'
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>关于本站 | 钱智汇</title>
+  <title>关于钱智汇 | 保险理财指南</title>
+  <meta name="description" content="了解钱智汇的使命、内容标准和联系方式。钱智汇专注保险测评、理财规划、个人养老。">
   <link rel="stylesheet" href="./style.css">
+  <link rel="canonical" href="{page_url}">
+  <meta property="og:title" content="关于钱智汇 | 保险理财指南">
+  <meta property="og:description" content="了解钱智汇的使命、内容标准和联系方式。">
+  <meta property="og:url" content="{page_url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="钱智汇">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="关于钱智汇">
+  <meta name="twitter:description" content="了解钱智汇的使命、内容标准和联系方式。">
+  {json_ld_org}
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <h1 class="site-title"><a href="./index.html">钱智汇</a></h1>
+      <p class="site-subtitle">保险理财指南 - 选对不选贵</p>
       {render_nav(0)}
     </div>
   </header>
   <main class="container">
     <article>
       <h2>关于钱智汇</h2>
-      <p>钱智汇（Money Smart CN）专注于保险测评、理财规划、个人养老规划。</p>
-      <p>我们的使命：帮你用最少的钱，配最好的保障。</p>
+      <p>钱智汇(Money Smart CN)是一个独立的保险与理财内容指南网站，致力于帮助普通家庭用最少的钱，配最好的保障。</p>
+      <h3>我们的使命</h3>
+      <p>保险和理财产品种类繁多、条款复杂，普通人很难判断哪款真正适合自己。钱智汇通过客观测评、横向对比和通俗易懂的解读，让读者能够独立做出明智的财务决策。</p>
       <h3>内容领域</h3>
       <ul>
-        <li><strong>保险测评</strong>：重疾险、医疗险、寿险、意外险横向对比</li>
-        <li><strong>理财规划</strong>：基金定投、银行存款、理财产品排行</li>
-        <li><strong>养老规划</strong>：个人养老金、商业养老保险、延迟退休应对</li>
+        <li><strong>保险测评</strong>：重疾险、医疗险、寿险、意外险横向对比，不偏袒任何一家保险公司</li>
+        <li><strong>理财规划</strong>：基金定投、银行存款、理财产品排行，兼顾收益与风险</li>
+        <li><strong>养老规划</strong>：个人养老金、商业养老保险、延迟退休应对方案</li>
+        <li><strong>投保攻略</strong>：核保技巧、理赔流程、受益人指定、保单管理</li>
       </ul>
-      <h3>联系方式</h3>
-      <p>Email: contact@moneysmart.cn</p>
+      <h3>编辑准则</h3>
+      <ul>
+        <li>所有测评均基于公开条款和产品说明书，不接受保险公司投稿或付费推荐</li>
+        <li>文章中如出现 affiliate 链接，会明确标注"推广"，不影响测评结论</li>
+        <li>医疗与法律相关内容仅供参考，不构成专业建议，请务必咨询持牌专业人士</li>
+        <li>如发现内容有误，请联系我们，我们会及时更正并注明更新日期</li>
+      </ul>
+      <h3>网站所有者</h3>
+      <p>钱智汇由独立内容团队运营，联系邮箱：contact@moneysmart.cn</p>
+      <h3>免责声明</h3>
+      <p>本站所有内容仅供参考，不构成保险、理财、投资建议。购买保险产品或做出财务决策前，请咨询持牌专业人士。因依赖本站内容而产生的任何损失，本站概不负责。</p>
     </article>
   </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 钱智汇 - 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
+    </div>
+  </footer>
 </body>
 </html>"""
+
+def render_privacy_policy():
+    """渲染隐私政策页面"""
+    page_url = SITE_URL + "/privacy.html"
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隐私政策 | 钱智汇</title>
+  <meta name="description" content="钱智汇隐私政策：我们如何收集、使用和保护您的个人信息。">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="canonical" href="{page_url}">
+  <meta property="og:title" content="隐私政策 | 钱智汇">
+  <meta property="og:description" content="钱智汇隐私政策">
+  <meta property="og:url" content="{page_url}">
+  <meta property="og:type" content="website">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="./index.html">钱智汇</a></h1>
+      <p class="site-subtitle">保险理财指南 - 选对不选贵</p>
+      {render_nav(0)}
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <h2>隐私政策</h2>
+      <p><strong>生效日期：2025年1月1日</strong></p>
+      <h3>1. 信息收集</h3>
+      <p>当您访问钱智汇时，我们可能通过以下方式收集信息：</p>
+      <ul>
+        <li><strong>自动收集</strong>：IP地址、浏览器类型、访问时间、访问页面</li>
+        <li><strong>广告服务</strong>：Google AdSense 可能通过 Cookie 收集您的信息，用于展示相关广告</li>
+        <li><strong>主动提供</strong>：当您通过邮件联系我们时，我们会收到您提供的邮箱地址</li>
+      </ul>
+      <h3>2. Cookie 使用</h3>
+      <p>本网站使用 Cookie 用于：Google AdSense 广告投放和效果衡量、基础访问统计。</p>
+      <p>您可以通过浏览器设置拒绝 Cookie，但可能导致部分功能无法正常使用。</p>
+      <h3>3. 广告服务(Google AdSense)</h3>
+      <p>本网站使用 Google AdSense 展示广告。Google 可能使用 Cookie 向用户展示基于兴趣的广告。您可以通过 <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google 广告设置</a> 管理您的广告偏好。</p>
+      <h3>4. 信息共享</h3>
+      <p>我们不会出售、出租或交换您的个人信息。仅在法律要求时披露信息。</p>
+      <h3>5. 数据安全</h3>
+      <p>我们采取合理的技术措施保护您的信息安全。但请注意，互联网传输无法保证100%安全。</p>
+      <h3>6. 第三方链接</h3>
+      <p>本网站可能包含指向第三方网站的链接。这些网站有独立的隐私政策，我们对其内容和安全不承担责任。</p>
+      <h3>7. 儿童隐私</h3>
+      <p>本网站不面向13岁以下儿童，我们不会故意收集儿童的个人信息。</p>
+      <h3>8. 政策更新</h3>
+      <p>本隐私政策可能不时更新，更新后的版本将发布在本页面。</p>
+      <h3>9. 联系我们</h3>
+      <p>如有任何关于本隐私政策的问题，请通过 <a href="./contact.html">联系我们</a> 页面与我们联系。</p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 钱智汇 - 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
+    </div>
+  </footer>
+</body>
+</html>"""
+
+
+def render_contact():
+    """渲染联系我们页面"""
+    page_url = SITE_URL + "/contact.html"
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>联系我们 | 钱智汇</title>
+  <meta name="description" content="钱智汇联系方式：邮箱、内容纠错、广告合作。">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="canonical" href="{page_url}">
+  <meta property="og:title" content="联系我们 | 钱智汇">
+  <meta property="og:description" content="钱智汇联系方式">
+  <meta property="og:url" content="{page_url}">
+  <meta property="og:type" content="website">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="./index.html">钱智汇</a></h1>
+      <p class="site-subtitle">保险理财指南 - 选对不选贵</p>
+      {render_nav(0)}
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <h2>联系我们</h2>
+      <p>如果您对网站内容有疑问、发现错误、或有合作建议，欢迎通过以下方式联系我们。</p>
+      <h3>电子邮箱</h3>
+      <p>商务合作与内容反馈：<strong>contact@moneysmart.cn</strong></p>
+      <p>我们会在3个工作日内回复您的邮件。</p>
+      <h3>内容纠错</h3>
+      <p>如果您发现文章中有事实错误、过时信息或表述不当，请邮件告知，我们会核实后及时更正，并在文章末尾注明更新记录。</p>
+      <h3>广告合作</h3>
+      <p>本网站使用 Google AdSense 自动投放广告。如需广告合作，请直接联系 Google AdSense 团队。我们不参与广告内容的审核或干预。</p>
+      <h3>社交媒体</h3>
+      <p>暂无官方社交媒体账号。所有以钱智汇名义运营的社媒账号均与本站无关，请注意甄别。</p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 钱智汇 - 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
+    </div>
+  </footer>
+</body>
+</html>"""
+
+
+def render_terms():
+    """渲染服务条款页面"""
+    page_url = SITE_URL + "/terms.html"
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服务条款 | 钱智汇</title>
+  <meta name="description" content="钱智汇服务条款：使用本网站即表示您同意以下条款。">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="canonical" href="{page_url}">
+  <meta property="og:title" content="服务条款 | 钱智汇">
+  <meta property="og:description" content="钱智汇服务条款">
+  <meta property="og:url" content="{page_url}">
+  <meta property="og:type" content="website">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="./index.html">钱智汇</a></h1>
+      <p class="site-subtitle">保险理财指南 - 选对不选贵</p>
+      {render_nav(0)}
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <h2>服务条款</h2>
+      <p><strong>生效日期：2025年1月1日</strong></p>
+      <h3>1. 接受条款</h3>
+      <p>访问和使用钱智汇网站，即表示您同意遵守本服务条款。如不同意，请立即停止使用本网站。</p>
+      <h3>2. 网站内容</h3>
+      <p>本网站所有内容仅供参考，不构成保险、理财、投资、法律或税务建议。在做出任何财务决策前，请咨询持牌专业人士。</p>
+      <h3>3. 知识产权</h3>
+      <p>本网站原创内容的知识产权归钱智汇所有，未经书面许可，不得转载、复制或用于商业用途。</p>
+      <h3>4. 用户行为</h3>
+      <p>您在使用本网站时，不得：上传或传播病毒、尝试未经授权访问本网站服务器、通过自动化工具大量抓取本网站内容。</p>
+      <h3>5. 广告与联盟链接</h3>
+      <p>本网站使用 Google AdSense 展示第三方广告，可能包含 affiliate 链接。点击广告或 affiliate 链接后，您将被引导至第三方网站，这些网站的内容和服务由第三方负责。</p>
+      <h3>6. 免责声明</h3>
+      <p>本网站按原样提供，不提供任何明示或暗示的担保。我们不对因使用本网站内容而产生的任何直接或间接损失负责。</p>
+      <h3>7. 条款修改</h3>
+      <p>我们保留随时修改本服务条款的权利。修改后的条款将发布在本页面。</p>
+      <h3>8. 适用法律</h3>
+      <p>本服务条款适用中华人民共和国法律。如因本条款产生争议，双方应友好协商；协商不成的，任何一方可向本站运营方所在地人民法院提起诉讼。</p>
+      <h3>9. 联系我们</h3>
+      <p>如有关于本服务条款的疑问，请通过 <a href="./contact.html">联系我们</a> 页面与我们联系。</p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 钱智汇 - 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
+    </div>
+  </footer>
+</body>
+</html>"""
+
 
 def render_category_index(category_name, articles):
     """渲染分类汇总页面（含 SEO 优化）"""
@@ -557,7 +762,7 @@ def render_category_index(category_name, articles):
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="../../index.html">首页</a> · <a href="../../about.html">关于</a></p>
+      <p><a href="../../index.html">首页</a> - <a href="../../about.html">关于</a> - <a href="../../privacy.html">隐私政策</a> - <a href="../../contact.html">联系我们</a> - <a href="../../terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -615,7 +820,7 @@ def render_tag_index(tag_name, articles):
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="../../index.html">首页</a> · <a href="../../about.html">关于</a></p>
+      <p><a href="../../index.html">首页</a> - <a href="../../about.html">关于</a> - <a href="../../privacy.html">隐私政策</a> - <a href="../../contact.html">联系我们</a> - <a href="../../terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -632,6 +837,8 @@ def render_nav(depth):
         <a href="{prefix}category/投保攻略/index.html">投保攻略</a>
         <a href="{prefix}category/理财规划/index.html">理财规划</a>
         <a href="{prefix}about.html">关于</a>
+        <a href="{prefix}contact.html">联系</a>
+        <a href="{prefix}privacy.html">隐私政策</a>
       </nav>'''
 
 def render_css():
@@ -803,6 +1010,10 @@ def generate_sitemap(articles, categories_map, tags_map):
     add_url(SITE_URL + "/", now_str, "daily", "1.0")
     # 关于页
     add_url(SITE_URL + "/about.html", now_str, "monthly", "0.5")
+    # 静态页面
+    add_url(SITE_URL + "/privacy.html", now_str, "monthly", "0.5")
+    add_url(SITE_URL + "/contact.html", now_str, "monthly", "0.5")
+    add_url(SITE_URL + "/terms.html",  now_str, "monthly", "0.5")
 
     # 文章页
     for art in articles:
@@ -899,6 +1110,24 @@ def main():
     with open(os.path.join(OUTPUT_DIR, "about.html"), "w", encoding="utf-8") as f:
         f.write(about_html)
     print("[OK] 已生成: about.html")
+
+    # 生成 隐私政策页
+    privacy_html = render_privacy_policy()
+    with open(os.path.join(OUTPUT_DIR, "privacy.html"), "w", encoding="utf-8") as f:
+        f.write(privacy_html)
+    print("[OK] 已生成: privacy.html")
+
+    # 生成 联系我们页
+    contact_html = render_contact()
+    with open(os.path.join(OUTPUT_DIR, "contact.html"), "w", encoding="utf-8") as f:
+        f.write(contact_html)
+    print("[OK] 已生成: contact.html")
+
+    # 生成 服务条款页
+    terms_html = render_terms()
+    with open(os.path.join(OUTPUT_DIR, "terms.html"), "w", encoding="utf-8") as f:
+        f.write(terms_html)
+    print("[OK] 已生成: terms.html")
 
     # 生成 CSS
     css = render_css()
