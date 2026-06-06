@@ -59,7 +59,7 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   <title>{escape(title)} | 钱智汇</title>
   <meta name="description" content="{escape(description or title)}">
   <link rel="stylesheet" href="/style.css">
-  <link rel="canonical" href="{SITE_URL}/{slug}/">
+  <link rel="canonical" href="{SITE_URL}/{slug}/index.html">
 </head>
 <body>
   <header class="site-header">
@@ -111,7 +111,7 @@ def render_index(articles):
         items += f"""
       <article class="post-card">
         <time class="post-card-date">{date_str}</time>
-        <h3 class="post-card-title"><a href="/{a['slug']}/">{escape(a['title'])}</a></h3>
+        <h3 class="post-card-title"><a href="/{a['slug']}/index.html">{escape(a['title'])}</a></h3>
         <p class="post-card-desc">{escape(a.get('description', ''))}</p>
       </article>"""
 
