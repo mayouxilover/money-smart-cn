@@ -58,18 +58,17 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{escape(title)} | 钱智汇</title>
   <meta name="description" content="{escape(description or title)}">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="{SITE_URL}/{slug}/index.html">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <h1 class="site-title"><a href="/">钱智汇</a></h1>
+      <h1 class="site-title"><a href="../index.html">钱智汇</a></h1>
       <p class="site-subtitle">保险理财指南 · 选对不选贵</p>
       <nav class="site-nav">
-        <a href="/">首页</a>
-        <a href="/archives/">归档</a>
-        <a href="/about.html">关于</a>
+        <a href="../index.html">首页</a>
+        <a href="../about.html">关于</a>
       </nav>
     </div>
   </header>
@@ -90,14 +89,14 @@ def render_html_article(title, date, categories, tags, description, body_html, s
       {"<footer class=\"post-footer\"><p>标签: " + tag_list + "</p></footer>" if tag_list else ""}
     </article>
     <div class="post-nav">
-      <a href="/">← 返回首页</a>
+      <a href="../index.html">← 返回首页</a>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="/">首页</a> · <a href="/about.html">关于</a> · <a href="/archives/">归档</a></p>
+      <p><a href="../index.html">首页</a> · <a href="../about.html">关于</a></p>
     </div>
   </footer>
 </body>
@@ -111,7 +110,7 @@ def render_index(articles):
         items += f"""
       <article class="post-card">
         <time class="post-card-date">{date_str}</time>
-        <h3 class="post-card-title"><a href="/{a['slug']}/index.html">{escape(a['title'])}</a></h3>
+        <h3 class="post-card-title"><a href="./{a['slug']}/index.html">{escape(a['title'])}</a></h3>
         <p class="post-card-desc">{escape(a.get('description', ''))}</p>
       </article>"""
 
@@ -122,19 +121,17 @@ def render_index(articles):
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{SITE_TITLE}</title>
   <meta name="description" content="专注保险测评、理财规划、个人养老。帮你用最少的钱，配最好的保障。">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="./style.css">
   <link rel="canonical" href="{SITE_URL}/">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <h1 class="site-title"><a href="/">钱智汇</a></h1>
+      <h1 class="site-title"><a href="./index.html">钱智汇</a></h1>
       <p class="site-subtitle">保险理财指南 · 选对不选贵</p>
       <nav class="site-nav">
-        <a href="/">首页</a>
-        <a href="/categories/">分类</a>
-        <a href="/about.html">关于</a>
-        <a href="/feed.xml">RSS</a>
+        <a href="./index.html">首页</a>
+        <a href="./about.html">关于</a>
       </nav>
     </div>
   </header>
@@ -149,7 +146,7 @@ def render_index(articles):
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="/">首页</a> · <a href="/about.html">关于</a> · <a href="/categories/">分类</a> · <a href="/feed.xml">RSS</a></p>
+      <p><a href="./index.html">首页</a> · <a href="./about.html">关于</a></p>
     </div>
   </footer>
 </body>
@@ -163,13 +160,13 @@ def render_about():
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>关于本站 | 钱智汇</title>
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <h1 class="site-title"><a href="/">钱智汇</a></h1>
-      <nav class="site-nav"><a href="/">首页</a></nav>
+      <h1 class="site-title"><a href="./index.html">钱智汇</a></h1>
+      <nav class="site-nav"><a href="./index.html">首页</a></nav>
     </div>
   </header>
   <main class="container">
