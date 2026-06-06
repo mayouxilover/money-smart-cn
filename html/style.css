@@ -96,6 +96,42 @@ body {
 .post-nav { margin: 24px 0; }
 .post-nav a { color: var(--accent); text-decoration: none; font-size: 15px; }
 
+/* Breadcrumb */
+.breadcrumb {
+  font-size: 13px;
+  color: var(--text-light);
+  margin: -16px 0 20px;
+  padding: 8px 12px;
+  background: var(--bg-warm);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.breadcrumb a { color: var(--accent); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb-sep { margin: 0 4px; color: var(--border); }
+.breadcrumb-current { color: var(--text); }
+
+/* Prev / Next Navigation */
+.post-prev-next {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 32px 0 16px;
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+}
+.post-prev-next a {
+  color: var(--accent);
+  text-decoration: none;
+  flex: 1;
+  line-height: 1.5;
+}
+.post-prev-next a:hover { text-decoration: underline; }
+.post-prev-next a[rel="next"] { text-align: right; }
+
 /* Footer */
 .site-footer {
   background: #0d1a2e;

@@ -6,8 +6,10 @@
 
 import os
 import re
+import json
 import glob
-from datetime import datetime
+import urllib.parse
+from datetime import datetime, date as date_cls
 from html import escape
 
 # ============ 简单 Markdown 转 HTML（不依赖外部库）============
@@ -130,6 +132,88 @@ def convert_table(table_rows):
     html += '</tbody>\n</table>'
     return html
 
+# ============ SEO 辅助函数 ============
+def make_schema_breadcrumb(items):
+    """生成 BreadcrumbList JSON-LD，items = [("名称", "url"), ...]，最后一项url可为空"""
+    elements = []
+    for i, (name, url) in enumerate(items, 1):
+        if url:
+            elements.append({"@type": "ListItem", "position": i, "name": name, "item": url})
+        else:
+            elements.append({"@type": "ListItem", "position": i, "name": name})
+    return json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": elements}, ensure_ascii=False, separators=(',', ':'))
+
+def make_schema_article(title, date_str, description, url, categories):
+    """生成 Article JSON-LD"""
+    return json.dumps({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": title,
+        "datePublished": date_str,
+        "dateModified": date_str,
+        "description": description or title,
+        "author": {"@type": "Organization", "name": "钱智汇"},
+        "publisher": {
+            "@type": "Organization",
+            "name": "钱智汇",
+            "logo": {"@type": "ImageObject", "url": SITE_URL + "/favicon.ico"}
+        },
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url}
+    }, ensure_ascii=False, separators=(',', ':'))
+
+def make_schema_website():
+    """生成 WebSite JSON-LD（首页用）"""
+    return json.dumps({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "钱智汇",
+        "url": SITE_URL + "/",
+        "description": "专注保险测评、理财规划、个人养老。帮你用最少的钱，配最好的保障。",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": SITE_URL + "/index.html?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }, ensure_ascii=False, separators=(',', ':'))
+
+def make_schema_collection_page(title, description, url):
+    """生成 CollectionPage JSON-LD（分类/标签页用）"""
+    return json.dumps({
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": title,
+        "description": description,
+        "url": url
+    }, ensure_ascii=False, separators=(',', ':'))
+
+def render_breadcrumb_html(depth, items):
+    """
+    生成面包屑 HTML（纯文字导航）
+    items = [("名称", "相对路径url"), ...]，最后一项url=None表示当前页
+    depth: 0=根目录, 1=文章目录, 2=分类/标签目录
+    """
+    prefix = '../' * depth
+    parts = []
+    for name, url in items:
+        if url:
+            parts.append(f'<a href="{url}">{escape(name)}</a>')
+        else:
+            parts.append(f'<span class="breadcrumb-current">{escape(name)}</span>')
+    inner = ' <span class="breadcrumb-sep">›</span> '.join(parts)
+    return f'<nav class="breadcrumb" aria-label="面包屑导航">位置：{inner}</nav>'
+
+def render_prev_next(prev_article, next_article, depth):
+    """生成上一篇/下一篇导航，prev_article/next_article 为 dict 或 None"""
+    prefix = '../' * depth
+    parts = []
+    if prev_article:
+        parts.append(f'<a href="{prefix}{prev_article["slug"]}/index.html" rel="prev">← {escape(prev_article["title"])}</a>')
+    if next_article:
+        parts.append(f'<a href="{prefix}{next_article["slug"]}/index.html" rel="next">{escape(next_article["title"])} →</a>')
+    if not parts:
+        return ""
+    return f'<div class="post-prev-next">{" | ".join(parts)}</div>'
+
 # ============ 配置 ============
 OUTPUT_DIR = "html"
 POSTS_DIR = "_posts"
@@ -164,11 +248,45 @@ def get_slug_from_filename(md_path):
         return parts[3]
     return name  # 如果格式不对，返回原始名称
 
-def render_html_article(title, date, categories, tags, description, body_html, slug):
-    """渲染单篇文章的 HTML 页面"""
+def render_html_article(title, date, categories, tags, description, body_html, slug, prev_article=None, next_article=None):
+    """渲染单篇文章的 HTML 页面（含 SEO 优化）"""
     cats = "".join(f'<a href="../category/{c}/index.html">{c}</a>' for c in (categories or []))
     tag_list = ", ".join(f'<a href="../tag/{t}/index.html">{t}</a>' for t in (tags or []))
     datetime_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime) else str(date)[:10]
+    page_url = f"{SITE_URL}/{slug}/index.html"
+    first_cat = categories[0] if categories else None
+
+    # 面包屑数据
+    bc_items_html = [("首页", "../index.html")]
+    if first_cat:
+        bc_items_html.append((first_cat, f"../category/{first_cat}/index.html"))
+    bc_items_html.append((title, None))
+    breadcrumb_html = render_breadcrumb_html(1, bc_items_html)
+
+    # JSON-LD BreadcrumbList
+    bc_items_schema = [("首页", SITE_URL + "/")]
+    if first_cat:
+        bc_items_schema.append((first_cat, SITE_URL + f"/category/{first_cat}/"))
+    bc_items_schema.append((title, page_url))
+    json_ld_breadcrumb = f'<script type="application/ld+json">{make_schema_breadcrumb(bc_items_schema)}</script>'
+
+    # JSON-LD Article
+    json_ld_article = f'<script type="application/ld+json">{make_schema_article(title, datetime_str, description, page_url, categories)}</script>'
+
+    # 上一篇/下一篇
+    prev_next_html = render_prev_next(prev_article, next_article, 1)
+
+    # Open Graph + Twitter Card
+    og_tags = f'''
+    <meta property="og:title" content="{escape(title)}">
+    <meta property="og:description" content="{escape(description or title)}">
+    <meta property="og:url" content="{page_url}">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="钱智汇">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{escape(title)}">
+    <meta name="twitter:description" content="{escape(description or title)}">'''
 
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -178,7 +296,10 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   <title>{escape(title)} | 钱智汇</title>
   <meta name="description" content="{escape(description or title)}">
   <link rel="stylesheet" href="../style.css">
-  <link rel="canonical" href="{SITE_URL}/{slug}/index.html">
+  <link rel="canonical" href="{page_url}">
+  {og_tags}
+  {json_ld_article}
+  {json_ld_breadcrumb}
 </head>
 <body>
   <header class="site-header">
@@ -190,11 +311,12 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   </header>
 
   <main class="container">
+    {breadcrumb_html}
     <article class="post">
       <header class="post-header">
         <h2 class="post-title">{escape(title)}</h2>
         <div class="post-meta">
-          <time>{datetime_str}</time>
+          <time datetime="{datetime_str}">{datetime_str}</time>
           {" · 分类: " + cats if cats else ""}
         </div>
         {f'<p class="post-description">{escape(description)}</p>' if description else ''}
@@ -204,9 +326,7 @@ def render_html_article(title, date, categories, tags, description, body_html, s
       </div>
       {"<footer class=\"post-footer\"><p>标签: " + tag_list + "</p></footer>" if tag_list else ""}
     </article>
-    <div class="post-nav">
-      <a href="../index.html">← 返回首页</a>
-    </div>
+    {prev_next_html}
   </main>
 
   <footer class="site-footer">
@@ -219,7 +339,7 @@ def render_html_article(title, date, categories, tags, description, body_html, s
 </html>"""
 
 def render_index(articles):
-    """渲染首页文章列表"""
+    """渲染首页文章列表（含 SEO 优化）"""
     items = ""
     for a in articles:
         date_str = a["date"].strftime("%Y-%m-%d") if isinstance(a["date"], datetime) else str(a["date"])[:10]
@@ -230,6 +350,20 @@ def render_index(articles):
         <p class="post-card-desc">{escape(a.get('description', ''))}</p>
       </article>"""
 
+    json_ld_website = f'<script type="application/ld+json">{make_schema_website()}</script>'
+
+    og_tags = f'''
+  <meta property="og:title" content="{SITE_TITLE}">
+  <meta property="og:description" content="专注保险测评、理财规划、个人养老。帮你用最少的钱，配最好的保障。">
+  <meta property="og:url" content="{SITE_URL}/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="钱智汇">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{SITE_TITLE}">
+  <meta name="twitter:description" content="专注保险测评、理财规划、个人养老。">'''
+
+    # 面包屑仅首页不需要，但可加结构化数据
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -239,6 +373,8 @@ def render_index(articles):
   <meta name="description" content="专注保险测评、理财规划、个人养老。帮你用最少的钱，配最好的保障。">
   <link rel="stylesheet" href="./style.css">
   <link rel="canonical" href="{SITE_URL}/">
+  {og_tags}
+  {json_ld_website}
 </head>
 <body>
   <header class="site-header">
@@ -301,7 +437,7 @@ def render_about():
 </html>"""
 
 def render_category_index(category_name, articles):
-    """渲染分类汇总页面"""
+    """渲染分类汇总页面（含 SEO 优化）"""
     items = ""
     for a in articles:
         date_str = a["date"].strftime("%Y-%m-%d") if isinstance(a["date"], datetime) else str(a["date"])[:10]
@@ -312,6 +448,11 @@ def render_category_index(category_name, articles):
         <p class="post-card-desc">{escape(a.get('description', ''))}</p>
       </article>"""
 
+    page_url = f"{SITE_URL}/category/{urllib.parse.quote(category_name)}/index.html"
+    breadcrumb_html = render_breadcrumb_html(2, [("首页", "../../index.html"), ("分类", None), (category_name, None)])
+    json_ld_bc = f'<script type="application/ld+json">{make_schema_breadcrumb([("首页", SITE_URL + "/"), ("分类:" + category_name, page_url)])}</script>'
+    json_ld_col = f'<script type="application/ld+json">{make_schema_collection_page("分类：" + category_name, "钱智汇 - " + category_name + "相关文章汇总", page_url)}</script>'
+
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -320,6 +461,14 @@ def render_category_index(category_name, articles):
   <title>分类：{escape(category_name)} | 钱智汇</title>
   <meta name="description" content="钱智汇 - {escape(category_name)}相关文章汇总">
   <link rel="stylesheet" href="../../style.css">
+  <link rel="canonical" href="{page_url}">
+  <meta property="og:title" content="分类：{escape(category_name)} | 钱智汇">
+  <meta property="og:description" content="钱智汇 - {escape(category_name)}相关文章汇总">
+  <meta property="og:url" content="{page_url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="钱智汇">
+  {json_ld_bc}
+  {json_ld_col}
 </head>
 <body>
   <header class="site-header">
@@ -331,6 +480,7 @@ def render_category_index(category_name, articles):
   </header>
 
   <main class="container">
+    {breadcrumb_html}
     <section class="posts-list">
       <h2>分类：{escape(category_name)}</h2>
       {items}
@@ -347,7 +497,7 @@ def render_category_index(category_name, articles):
 </html>"""
 
 def render_tag_index(tag_name, articles):
-    """渲染标签汇总页面"""
+    """渲染标签汇总页面（含 SEO 优化）"""
     items = ""
     for a in articles:
         date_str = a["date"].strftime("%Y-%m-%d") if isinstance(a["date"], datetime) else str(a["date"])[:10]
@@ -358,6 +508,10 @@ def render_tag_index(tag_name, articles):
         <p class="post-card-desc">{escape(a.get('description', ''))}</p>
       </article>"""
 
+    page_url = f"{SITE_URL}/tag/{urllib.parse.quote(tag_name)}/index.html"
+    breadcrumb_html = render_breadcrumb_html(2, [("首页", "../../index.html"), ("标签", None), (tag_name, None)])
+    json_ld_bc = f'<script type="application/ld+json">{make_schema_breadcrumb([("首页", SITE_URL + "/"), ("标签:" + tag_name, page_url)])}</script>'
+
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -366,6 +520,13 @@ def render_tag_index(tag_name, articles):
   <title>标签：{escape(tag_name)} | 钱智汇</title>
   <meta name="description" content="钱智汇 - {escape(tag_name)}相关文章汇总">
   <link rel="stylesheet" href="../../style.css">
+  <link rel="canonical" href="{page_url}">
+  <meta property="og:title" content="标签：{escape(tag_name)} | 钱智汇">
+  <meta property="og:description" content="钱智汇 - {escape(tag_name)}相关文章汇总">
+  <meta property="og:url" content="{page_url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="钱智汇">
+  {json_ld_bc}
 </head>
 <body>
   <header class="site-header">
@@ -377,6 +538,7 @@ def render_tag_index(tag_name, articles):
   </header>
 
   <main class="container">
+    {breadcrumb_html}
     <section class="posts-list">
       <h2>标签：{escape(tag_name)}</h2>
       {items}
@@ -505,6 +667,42 @@ body {
 .post-nav { margin: 24px 0; }
 .post-nav a { color: var(--accent); text-decoration: none; font-size: 15px; }
 
+/* Breadcrumb */
+.breadcrumb {
+  font-size: 13px;
+  color: var(--text-light);
+  margin: -16px 0 20px;
+  padding: 8px 12px;
+  background: var(--bg-warm);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.breadcrumb a { color: var(--accent); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb-sep { margin: 0 4px; color: var(--border); }
+.breadcrumb-current { color: var(--text); }
+
+/* Prev / Next Navigation */
+.post-prev-next {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 32px 0 16px;
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+}
+.post-prev-next a {
+  color: var(--accent);
+  text-decoration: none;
+  flex: 1;
+  line-height: 1.5;
+}
+.post-prev-next a:hover { text-decoration: underline; }
+.post-prev-next a[rel="next"] { text-align: right; }
+
 /* Footer */
 .site-footer {
   background: #0d1a2e;
@@ -525,6 +723,43 @@ body {
 """
 
 # ============ 主流程 ============
+def generate_sitemap(articles, categories_map, tags_map):
+    """生成 sitemap.xml（含 lastmod / changefreq / priority）"""
+    from datetime import datetime as dt
+    now_str = dt.now().strftime("%Y-%m-%d")
+    urls = []
+
+    def add_url(loc, lastmod, changefreq, priority):
+       urls.append(f"  <url>\n    <loc>{loc}</loc>\n    <lastmod>{lastmod}</lastmod>\n    <changefreq>{changefreq}</changefreq>\n    <priority>{priority}</priority>\n  </url>")
+
+    # 首页
+    add_url(SITE_URL + "/", now_str, "daily", "1.0")
+    # 关于页
+    add_url(SITE_URL + "/about.html", now_str, "monthly", "0.5")
+
+    # 文章页
+    for art in articles:
+        d = art["date"]
+        ds = d.strftime("%Y-%m-%d") if isinstance(d, dt) else str(d)[:10]
+        loc = SITE_URL + "/" + art["slug"] + "/index.html"
+        add_url(loc, ds, "monthly", "0.8")
+
+    # 分类页
+    for cat_name in categories_map:
+        loc = SITE_URL + "/category/" + urllib.parse.quote(cat_name) + "/index.html"
+        add_url(loc, now_str, "weekly", "0.6")
+
+    # 标签页
+    for tag_name in tags_map:
+        loc = SITE_URL + "/tag/" + urllib.parse.quote(tag_name) + "/index.html"
+        add_url(loc, now_str, "weekly", "0.4")
+
+    return f'''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{chr(10).join(urls)}
+</urlset>'''
+
+
 def main():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -546,9 +781,8 @@ def main():
         categories = [c.strip() for c in fm.get("categories", "").strip("[]").split(",") if c.strip()]
         tags = [t.strip() for t in fm.get("tags", "").strip("[]").split(",") if t.strip()]
         description = fm.get("description", "")
-        slug = get_slug_from_filename(md_path)  # 从文件名提取英文 slug
+        slug = get_slug_from_filename(md_path)
 
-        # 转换 Markdown 为 HTML（使用内置函数，无需外部依赖）
         body_html = simple_markdown_to_html(content)
 
         articles.append({
@@ -563,44 +797,51 @@ def main():
             "fm": fm,
         })
 
-        # 保存单篇文章 HTML（每个文章一个目录，URL 简洁）
-        out_dir = os.path.join(OUTPUT_DIR, slug)  # html/critical-illness-insurance-comparison/
-        os.makedirs(out_dir, exist_ok=True)
-        html_path = os.path.join(out_dir, "index.html")  # index.html
-        html_content = render_html_article(title, date, categories, tags, description, body_html, slug)
-        with open(html_path, "w", encoding="utf-8") as f:
-            f.write(html_content)
-        print(f"  [OK] 已生成: {html_path}")
-
     # 按日期排序（新的在前）
     articles.sort(key=lambda x: x["date"], reverse=True)
 
-    # 生成首页
+    # 生成单篇文章 HTML（带上一篇/下一篇）
+    print("[文章] 开始生成文章页...")
+    for i, art in enumerate(articles):
+        prev_art = articles[i + 1] if i + 1 < len(articles) else None
+        next_art = articles[i - 1] if i - 1 >= 0 else None
+
+        out_dir = os.path.join(OUTPUT_DIR, art["slug"])
+        os.makedirs(out_dir, exist_ok=True)
+        html_path = os.path.join(out_dir, "index.html")
+        html_content = render_html_article(
+            art["title"], art["date"], art["categories"], art["tags"],
+            art["description"], art["body_html"], art["slug"],
+            prev_article=prev_art, next_article=next_art
+        )
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        print(f"  [OK] {art['slug']}/index.html")
+
+    # 生成首页（含 JSON-LD WebSite）
     index_html = render_index(articles)
     with open(os.path.join(OUTPUT_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_html)
-    print("  [OK] 已生成: index.html")
+    print("[OK] 已生成: index.html")
 
-    # 生成关于页
+    # 生成关于页（含面包屑）
     about_html = render_about()
     with open(os.path.join(OUTPUT_DIR, "about.html"), "w", encoding="utf-8") as f:
         f.write(about_html)
-    print("  [OK] 已生成: about.html")
+    print("[OK] 已生成: about.html")
 
     # 生成 CSS
     css = render_css()
     with open(os.path.join(OUTPUT_DIR, "style.css"), "w", encoding="utf-8") as f:
         f.write(css)
-    print("  [OK] 已生成: style.css")
+    print("[OK] 已生成: style.css")
 
     # 生成分类汇总页面
     print("\n[分类页面] 开始生成分类汇总页面...")
-    categories_map = {}  # {分类名: [文章列表]}
+    categories_map = {}
     for article in articles:
         for cat in article.get("categories", []):
-            if cat not in categories_map:
-                categories_map[cat] = []
-            categories_map[cat].append(article)
+            categories_map.setdefault(cat, []).append(article)
 
     for cat_name, cat_articles in categories_map.items():
         cat_dir = os.path.join(OUTPUT_DIR, "category", cat_name)
@@ -609,16 +850,14 @@ def main():
         cat_path = os.path.join(cat_dir, "index.html")
         with open(cat_path, "w", encoding="utf-8") as f:
             f.write(cat_html)
-        print(f"  [OK] 已生成分类页: category/{cat_name}/index.html")
+        print(f"  [OK] category/{cat_name}/index.html")
 
     # 生成标签汇总页面
     print("\n[标签页面] 开始生成标签汇总页面...")
-    tags_map = {}  # {标签名: [文章列表]}
+    tags_map = {}
     for article in articles:
         for tag in article.get("tags", []):
-            if tag not in tags_map:
-                tags_map[tag] = []
-            tags_map[tag].append(article)
+            tags_map.setdefault(tag, []).append(article)
 
     for tag_name, tag_articles in tags_map.items():
         tag_dir = os.path.join(OUTPUT_DIR, "tag", tag_name)
@@ -627,7 +866,24 @@ def main():
         tag_path = os.path.join(tag_dir, "index.html")
         with open(tag_path, "w", encoding="utf-8") as f:
             f.write(tag_html)
-        print(f"  [OK] 已生成标签页: tag/{tag_name}/index.html")
+        print(f"  [OK] tag/{tag_name}/index.html")
+
+    # 生成 sitemap.xml
+    print("\n[Sitemap] 生成 sitemap.xml...")
+    sitemap = generate_sitemap(articles, categories_map, tags_map)
+    with open(os.path.join(OUTPUT_DIR, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write(sitemap)
+    print("  [OK] sitemap.xml")
+
+    # 生成 robots.txt
+    robots_txt = f"""User-agent: *
+Allow: /
+
+Sitemap: {SITE_URL}/sitemap.xml
+"""
+    with open(os.path.join(OUTPUT_DIR, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(robots_txt)
+    print("  [OK] robots.txt")
 
     print(f"\n[ALL DONE] 共生成 {len(articles)} 篇文章 + {len(categories_map)} 个分类页 + {len(tags_map)} 个标签页")
     print(f"[DIR] 输出目录: ./{OUTPUT_DIR}/")
