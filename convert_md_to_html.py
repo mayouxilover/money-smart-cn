@@ -274,7 +274,7 @@ def render_prev_next(prev_article, next_article, depth):
 OUTPUT_DIR = "html"
 POSTS_DIR = "_posts"
 SITE_TITLE = "钱智汇 · 保险理财指南"
-SITE_URL = "https://mayouxilover.github.io/money-smart-cn"
+SITE_URL = "https://mayouxilover.github.io"
 
 # ============ 工具函数 ============
 def parse_front_matter(text):

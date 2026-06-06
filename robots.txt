@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mayouxilover.github.io/money-smart-cn/sitemap.xml
+Sitemap: https://mayouxilover.github.io/sitemap.xml
