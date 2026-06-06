@@ -365,6 +365,7 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   {json_ld_faq}
   {json_ld_breadcrumb}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
 <body>
   <header class="site-header">
@@ -444,6 +445,7 @@ def render_index(articles):
   {json_ld_website}
   {json_ld_org}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
 <body>
   <header class="site-header">
@@ -493,6 +495,7 @@ def render_about():
   <meta name="twitter:description" content="了解钱智汇的使命、内容标准和联系方式。">
   {json_ld_org}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
 <body>
   <header class="site-header">
@@ -554,6 +557,7 @@ def render_privacy_policy():
   <meta property="og:url" content="{page_url}">
   <meta property="og:type" content="website">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
 <body>
   <header class="site-header">
@@ -620,6 +624,7 @@ def render_contact():
   <meta property="og:url" content="{page_url}">
   <meta property="og:type" content="website">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
 <body>
   <header class="site-header">
@@ -671,6 +676,7 @@ def render_terms():
   <meta property="og:url" content="{page_url}">
   <meta property="og:type" content="website">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
 <body>
   <header class="site-header">
@@ -748,6 +754,7 @@ def render_category_index(category_name, articles):
   {json_ld_bc}
   {json_ld_col}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
 <body>
   <header class="site-header">
@@ -807,6 +814,7 @@ def render_tag_index(tag_name, articles):
   <meta property="og:site_name" content="钱智汇">
   {json_ld_bc}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3698112179300810" crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-3698112179300810">
 </head>
 <body>
   <header class="site-header">
