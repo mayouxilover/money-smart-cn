@@ -186,6 +186,62 @@ def make_schema_collection_page(title, description, url):
         "url": url
     }, ensure_ascii=False, separators=(',', ':'))
 
+def make_schema_organization():
+    """生成 Organization JSON-LD（首页与 Article publisher 共用）"""
+    return json.dumps({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "钱智汇",
+        "url": SITE_URL + "/",
+        "description": "专注保险测评、理财规划、个人养老。帮你用最少的钱，配最好的保障。",
+        "logo": SITE_URL + "/favicon.ico",
+        "sameAs": []
+    }, ensure_ascii=False, separators=(',', ':'))
+
+def make_schema_faq(faq_pairs, page_url):
+    """生成 FAQPage JSON-LD，faq_pairs = [(question, answer), ...]"""
+    if not faq_pairs:
+        return ""
+    main_entity = []
+    for q, a in faq_pairs:
+        main_entity.append({
+            "@type": "Question",
+            "name": q,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": a
+            }
+        })
+    return json.dumps({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": main_entity
+    }, ensure_ascii=False, separators=(',', ':'))
+
+def extract_faq_pairs(md_content):
+    """从 Markdown 正文中提取 FAQ 问答对，返回 [(q, a), ...]"""
+    pairs = []
+    # 找 FAQ 章节
+    faq_match = re.search(r'^#{2,3}\s*(?:FAQ|常见问题)', md_content, re.MULTILINE)
+    if not faq_match:
+        return pairs
+
+    faq_section = md_content[faq_match.start():]
+    # 匹配 Q/A 对：**Q：...** 跟 A：...
+    qa_blocks = re.findall(
+        r'\*\*Q[：:](.*?)\*\*\s*\n\s*A[：:](.*?)(?=\n\s*\*\*Q[：:]|\n\s*---|\Z)',
+        faq_section, re.DOTALL
+    )
+
+    for q, a in qa_blocks:
+        q_clean = re.sub(r'[*_]+', '', q).strip()
+        a_clean = re.sub(r'[*_]+', '', a).strip()
+        a_clean = re.sub(r'\n+', ' ', a_clean)
+        if q_clean and a_clean:
+            pairs.append((q_clean, a_clean))
+
+    return pairs
+
 def render_breadcrumb_html(depth, items):
     """
     生成面包屑 HTML（纯文字导航）
@@ -248,8 +304,8 @@ def get_slug_from_filename(md_path):
         return parts[3]
     return name  # 如果格式不对，返回原始名称
 
-def render_html_article(title, date, categories, tags, description, body_html, slug, prev_article=None, next_article=None):
-    """渲染单篇文章的 HTML 页面（含 SEO 优化）"""
+def render_html_article(title, date, categories, tags, description, body_html, slug, prev_article=None, next_article=None, faq_pairs=None):
+    """渲染单篇文章的 HTML 页面（含 SEO 优化：Article + FAQPage + BreadcrumbList）"""
     cats = "".join(f'<a href="../category/{c}/index.html">{c}</a>' for c in (categories or []))
     tag_list = ", ".join(f'<a href="../tag/{t}/index.html">{t}</a>' for t in (tags or []))
     datetime_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime) else str(date)[:10]
@@ -272,6 +328,13 @@ def render_html_article(title, date, categories, tags, description, body_html, s
 
     # JSON-LD Article
     json_ld_article = f'<script type="application/ld+json">{make_schema_article(title, datetime_str, description, page_url, categories)}</script>'
+
+    # JSON-LD FAQPage（仅当有 FAQ 内容时）
+    json_ld_faq = ""
+    if faq_pairs:
+        faq_schema = make_schema_faq(faq_pairs, page_url)
+        if faq_schema:
+            json_ld_faq = f'<script type="application/ld+json">{faq_schema}</script>'
 
     # 上一篇/下一篇
     prev_next_html = render_prev_next(prev_article, next_article, 1)
@@ -299,6 +362,7 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   <link rel="canonical" href="{page_url}">
   {og_tags}
   {json_ld_article}
+  {json_ld_faq}
   {json_ld_breadcrumb}
 </head>
 <body>
@@ -351,6 +415,7 @@ def render_index(articles):
       </article>"""
 
     json_ld_website = f'<script type="application/ld+json">{make_schema_website()}</script>'
+    json_ld_org = f'<script type="application/ld+json">{make_schema_organization()}</script>'
 
     og_tags = f'''
   <meta property="og:title" content="{SITE_TITLE}">
@@ -361,7 +426,8 @@ def render_index(articles):
   <meta property="og:locale" content="zh_CN">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{SITE_TITLE}">
-  <meta name="twitter:description" content="专注保险测评、理财规划、个人养老。">'''
+  <meta name="twitter:description" content="专注保险测评、理财规划、个人养老。">
+  <meta name="google-site-verification" content="googleff27169294274065">'''
 
     # 面包屑仅首页不需要，但可加结构化数据
     return f"""<!DOCTYPE html>
@@ -375,6 +441,7 @@ def render_index(articles):
   <link rel="canonical" href="{SITE_URL}/">
   {og_tags}
   {json_ld_website}
+  {json_ld_org}
 </head>
 <body>
   <header class="site-header">
@@ -795,6 +862,7 @@ def main():
             "description": description,
             "body_html": body_html,
             "fm": fm,
+            "raw_content": text,
         })
 
     # 按日期排序（新的在前）
@@ -809,10 +877,12 @@ def main():
         out_dir = os.path.join(OUTPUT_DIR, art["slug"])
         os.makedirs(out_dir, exist_ok=True)
         html_path = os.path.join(out_dir, "index.html")
+        faq_pairs = extract_faq_pairs(art["raw_content"])
         html_content = render_html_article(
             art["title"], art["date"], art["categories"], art["tags"],
             art["description"], art["body_html"], art["slug"],
-            prev_article=prev_art, next_article=next_art
+            prev_article=prev_art, next_article=next_art,
+            faq_pairs=faq_pairs
         )
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(html_content)
