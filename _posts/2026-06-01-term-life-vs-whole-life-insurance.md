@@ -14,7 +14,6 @@ description: "定期寿险保费仅终身寿险的1/5。用真实家庭案例+30
 ---
 
 
-![](/images/term-life/cover.png)
 
 ## 真实案例：一个36岁父亲的深夜噩梦
 
@@ -59,7 +58,6 @@ description: "定期寿险保费仅终身寿险的1/5。用真实家庭案例+30
 
 ## 为什么定期寿险是家庭经济支柱的刚需？
 
-![](/images/term-life/costs.png)
 ### 一个公式判断你需要多少保额
 
 ```
@@ -99,7 +97,6 @@ description: "定期寿险保费仅终身寿险的1/5。用真实家庭案例+30
 ---
 
 ## 2025年定期寿险横评：4款可买的
-![](/images/term-life/timeline.png)
 
 ![定期寿险保费对比](/images/term-life/costs.png)
 

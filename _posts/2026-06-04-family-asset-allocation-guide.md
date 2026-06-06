@@ -8,14 +8,13 @@ description: "用标准普尔四账户模型重新规划家庭财务——一个
 image: images/family-asset/cover.png
 ---
 
-![家庭资产配置：让每一分钱都有它的使命](images/family-asset/cover.png)
+![家庭资产配置：让每一分钱都有它的使命](/images/family-asset/cover.png)
 
 > **摘要：** 林然和妻子月收入合计3.2万，却在深圳月光了整整3年——问题不在赚得少，而在于钱没有按"功能"分开管。本文用他们的真实改造过程 + 四账户模型实操模板 + 5个最常见误区拆解，手把手教你从财务混乱走向财务清晰。
 
 ---
 
 
-![](/images/family-asset/cover.png)
 
 ## 一个月入3.2万家庭的财务真相：赚得不少，为什么存不下钱？
 
@@ -45,7 +44,7 @@ image: images/family-asset/cover.png
 
 林然的改造从一个简单的框架开始——**标准普尔家庭资产四象限**。
 
-![四账户模型：要花的钱、保命的钱、生钱的钱、保本的钱](images/family-asset/four-accounts.png)
+![四账户模型：要花的钱、保命的钱、生钱的钱、保本的钱](/images/family-asset/four-accounts.png)
 
 | 账户 | 功能 | 建议占比 | 工具 |
 |------|------|:-----:|------|
@@ -60,7 +59,6 @@ image: images/family-asset/cover.png
 
 ## 林然家的四账户改造方案
 
-![](/images/family-asset/allocation.png)
 ### 改造前 vs 改造后
 
 | 维度 | 改造前 | 改造后 |
@@ -88,7 +86,7 @@ image: images/family-asset/cover.png
 
 ## 四个账户逐个拆解
 
-![家庭资产配置比例可视化](images/family-asset/allocation.png)
+![家庭资产配置比例可视化](/images/family-asset/allocation.png)
 
 ### 账户一：要花的钱——不是你"想花的钱"
 
@@ -166,7 +164,6 @@ image: images/family-asset/cover.png
 ---
 
 ## 5个最常见的资产配置误区
-![](/images/family-asset/four-accounts.png)
 
 ### 误区一：全部钱放在一个账户
 

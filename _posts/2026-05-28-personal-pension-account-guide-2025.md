@@ -8,14 +8,13 @@ description: "个人养老金账户2025全国推广，每年存12000元最高省
 image: images/personal-pension/cover.png
 ---
 
-![个人养老金：每年存12000，退休时能多拿多少钱？](images/personal-pension/cover.png)
+![个人养老金：每年存12000，退休时能多拿多少钱？](/images/personal-pension/cover.png)
 
 > **摘要：** 个人养老金账户2025年正式向全国推广——每年存12000元可以抵扣个税，年收入越高省得越多。但存进去的钱退休前取不出来、投资产品有赚有亏、领取时还要补缴3%的税。到底划不划算？本文用一个35岁上班族的完整测算，把省税、投资、领取三道关逐个拆解。
 
 ---
 
 
-![](/images/personal-pension/cover.png)
 
 ## 一个35岁上班族的灵魂拷问：个人养老金到底值不值得开？
 
@@ -43,7 +42,7 @@ image: images/personal-pension/cover.png
 
 ## 不同收入水平，到底能省多少税？
 
-![不同收入人群的个人养老金节税效果](images/personal-pension/tax-savings.png)
+![不同收入人群的个人养老金节税效果](/images/personal-pension/tax-savings.png)
 
 | 月收入 | 年薪(含年终) | 适用税率 | 存12000省税 | 领取时补税(3%) | **净省税** |
 |--------|:--------:|:------:|:--------:|:-----------:|:--------:|
@@ -60,10 +59,9 @@ image: images/personal-pension/cover.png
 
 ## 存进去的12000元怎么投资？4类产品深度对比
 
-![](/images/personal-pension/products.png)
 钱存进个人养老金账户后，不会自动增值——你需要主动选择投资产品。目前有4类可选：
 
-![四类个人养老金投资产品象限对比](images/personal-pension/products.png)
+![四类个人养老金投资产品象限对比](/images/personal-pension/products.png)
 
 ### 第一类：养老储蓄存款
 
@@ -156,7 +154,6 @@ image: images/personal-pension/cover.png
 ---
 
 ## 谁该开？谁不该开？一张表说清楚
-![](/images/personal-pension/tax-savings.png)
 
 | 你的情况 | 建议 | 理由 |
 |---------|:----:|------|
