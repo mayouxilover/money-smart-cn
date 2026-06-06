@@ -397,7 +397,7 @@ def render_html_article(title, date, categories, tags, description, body_html, s
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="../index.html">首页</a> - <a href="../about.html">关于</a> - <a href="../privacy">隐私政策</a> - <a href="../contact">联系我们</a> - <a href="../terms">服务条款</a></p>
+      <p><a href="../index.html">首页</a> - <a href="../about.html">关于</a> - <a href="../privacy.html">隐私政策</a> - <a href="../contact.html">联系我们</a> - <a href="../terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -464,7 +464,7 @@ def render_index(articles):
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy">隐私政策</a> - <a href="./contact">联系我们</a> - <a href="./terms">服务条款</a></p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -531,7 +531,7 @@ def render_about():
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2025 钱智汇 - 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy">隐私政策</a> - <a href="./contact">联系我们</a> - <a href="./terms">服务条款</a></p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -539,7 +539,7 @@ def render_about():
 
 def render_privacy_policy():
     """渲染隐私政策页面"""
-    page_url = SITE_URL + "/privacy"
+    page_url = SITE_URL + "/privacy.html"
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -590,13 +590,13 @@ def render_privacy_policy():
       <h3>8. 政策更新</h3>
       <p>本隐私政策可能不时更新，更新后的版本将发布在本页面。</p>
       <h3>9. 联系我们</h3>
-      <p>如有任何关于本隐私政策的问题，请通过 <a href="./contact">联系我们</a> 页面与我们联系。</p>
+      <p>如有任何关于本隐私政策的问题，请通过 <a href="./contact.html">联系我们</a> 页面与我们联系。</p>
     </article>
   </main>
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2025 钱智汇 - 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy">隐私政策</a> - <a href="./contact">联系我们</a> - <a href="./terms">服务条款</a></p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -605,7 +605,7 @@ def render_privacy_policy():
 
 def render_contact():
     """渲染联系我们页面"""
-    page_url = SITE_URL + "/contact"
+    page_url = SITE_URL + "/contact.html"
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -647,7 +647,7 @@ def render_contact():
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2025 钱智汇 - 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy">隐私政策</a> - <a href="./contact">联系我们</a> - <a href="./terms">服务条款</a></p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -656,7 +656,7 @@ def render_contact():
 
 def render_terms():
     """渲染服务条款页面"""
-    page_url = SITE_URL + "/terms"
+    page_url = SITE_URL + "/terms.html"
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -701,13 +701,13 @@ def render_terms():
       <h3>8. 适用法律</h3>
       <p>本服务条款适用中华人民共和国法律。如因本条款产生争议，双方应友好协商；协商不成的，任何一方可向本站运营方所在地人民法院提起诉讼。</p>
       <h3>9. 联系我们</h3>
-      <p>如有关于本服务条款的疑问，请通过 <a href="./contact">联系我们</a> 页面与我们联系。</p>
+      <p>如有关于本服务条款的疑问，请通过 <a href="./contact.html">联系我们</a> 页面与我们联系。</p>
     </article>
   </main>
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2025 钱智汇 - 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy">隐私政策</a> - <a href="./contact">联系我们</a> - <a href="./terms">服务条款</a></p>
+      <p><a href="./index.html">首页</a> - <a href="./about.html">关于</a> - <a href="./privacy.html">隐私政策</a> - <a href="./contact.html">联系我们</a> - <a href="./terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -769,7 +769,7 @@ def render_category_index(category_name, articles):
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="../../index.html">首页</a> - <a href="../../about.html">关于</a> - <a href="../../privacy">隐私政策</a> - <a href="../../contact">联系我们</a> - <a href="../../terms">服务条款</a></p>
+      <p><a href="../../index.html">首页</a> - <a href="../../about.html">关于</a> - <a href="../../privacy.html">隐私政策</a> - <a href="../../contact.html">联系我们</a> - <a href="../../terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -828,7 +828,7 @@ def render_tag_index(tag_name, articles):
   <footer class="site-footer">
     <div class="container">
       <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
-      <p><a href="../../index.html">首页</a> - <a href="../../about.html">关于</a> - <a href="../../privacy">隐私政策</a> - <a href="../../contact">联系我们</a> - <a href="../../terms">服务条款</a></p>
+      <p><a href="../../index.html">首页</a> - <a href="../../about.html">关于</a> - <a href="../../privacy.html">隐私政策</a> - <a href="../../contact.html">联系我们</a> - <a href="../../terms.html">服务条款</a></p>
     </div>
   </footer>
 </body>
@@ -845,8 +845,8 @@ def render_nav(depth):
         <a href="{prefix}category/投保攻略/index.html">投保攻略</a>
         <a href="{prefix}category/理财规划/index.html">理财规划</a>
         <a href="{prefix}about.html">关于</a>
-        <a href="{prefix}contact">联系</a>
-        <a href="{prefix}privacy">隐私政策</a>
+        <a href="{prefix}contact.html">联系</a>
+        <a href="{prefix}privacy.html">隐私政策</a>
       </nav>'''
 
 def render_css():
@@ -1019,9 +1019,9 @@ def generate_sitemap(articles, categories_map, tags_map):
     # 关于页
     add_url(SITE_URL + "/about.html", now_str, "monthly", "0.5")
     # 静态页面
-    add_url(SITE_URL + "/privacy", now_str, "monthly", "0.5")
-    add_url(SITE_URL + "/contact", now_str, "monthly", "0.5")
-    add_url(SITE_URL + "/terms",  now_str, "monthly", "0.5")
+    add_url(SITE_URL + "/privacy.html", now_str, "monthly", "0.5")
+    add_url(SITE_URL + "/contact.html", now_str, "monthly", "0.5")
+    add_url(SITE_URL + "/terms.html",  now_str, "monthly", "0.5")
 
     # 文章页
     for art in articles:
