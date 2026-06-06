@@ -86,6 +86,16 @@ def simple_markdown_to_html(text):
             html_lines.append(f'<blockquote><p>{line.strip()[2:]}</p></blockquote>')
             continue
 
+        # 图片 (Markdown 语法 → HTML <img>)
+        img_match = re.match(r'!\[([^\]]*)\]\(([^)]+)\)', line.strip())
+        if img_match:
+            alt_text = img_match.group(1) or ''
+            img_src = img_match.group(2)
+            # 修正路径：/images/xxx 或 images/xxx → ../images/xxx
+            img_src = re.sub(r'^/?images/', '../images/', img_src)
+            html_lines.append(f'<p><img src="{img_src}" alt="{alt_text}" loading="lazy"></p>')
+            continue
+
         # 空行
         if not line.strip():
             continue
@@ -274,7 +284,7 @@ def render_prev_next(prev_article, next_article, depth):
 OUTPUT_DIR = "html"
 POSTS_DIR = "_posts"
 SITE_TITLE = "钱智汇 · 保险理财指南"
-SITE_URL = "https://mayouxilover.github.io"
+SITE_URL = "https://mayouxilover.github.io/money-smart-cn"
 
 # ============ 工具函数 ============
 def parse_front_matter(text):
