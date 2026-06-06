@@ -185,10 +185,7 @@ def render_html_article(title, date, categories, tags, description, body_html, s
     <div class="container">
       <h1 class="site-title"><a href="../index.html">钱智汇</a></h1>
       <p class="site-subtitle">保险理财指南 · 选对不选贵</p>
-      <nav class="site-nav">
-        <a href="../index.html">首页</a>
-        <a href="../about.html">关于</a>
-      </nav>
+      {render_nav(1)}
     </div>
   </header>
 
@@ -248,10 +245,7 @@ def render_index(articles):
     <div class="container">
       <h1 class="site-title"><a href="./index.html">钱智汇</a></h1>
       <p class="site-subtitle">保险理财指南 · 选对不选贵</p>
-      <nav class="site-nav">
-        <a href="./index.html">首页</a>
-        <a href="./about.html">关于</a>
-      </nav>
+      {render_nav(0)}
     </div>
   </header>
 
@@ -285,7 +279,7 @@ def render_about():
   <header class="site-header">
     <div class="container">
       <h1 class="site-title"><a href="./index.html">钱智汇</a></h1>
-      <nav class="site-nav"><a href="./index.html">首页</a></nav>
+      {render_nav(0)}
     </div>
   </header>
   <main class="container">
@@ -332,10 +326,7 @@ def render_category_index(category_name, articles):
     <div class="container">
       <h1 class="site-title"><a href="../../index.html">钱智汇</a></h1>
       <p class="site-subtitle">保险理财指南 · 选对不选贵</p>
-      <nav class="site-nav">
-        <a href="../../index.html">首页</a>
-        <a href="../../about.html">关于</a>
-      </nav>
+      {render_nav(2)}
     </div>
   </header>
 
@@ -381,10 +372,7 @@ def render_tag_index(tag_name, articles):
     <div class="container">
       <h1 class="site-title"><a href="../../index.html">钱智汇</a></h1>
       <p class="site-subtitle">保险理财指南 · 选对不选贵</p>
-      <nav class="site-nav">
-        <a href="../../index.html">首页</a>
-        <a href="../../about.html">关于</a>
-      </nav>
+      {render_nav(2)}
     </div>
   </header>
 
@@ -404,6 +392,18 @@ def render_tag_index(tag_name, articles):
 </body>
 </html>"""
 
+
+def render_nav(depth):
+    """渲染页眉导航，depth=相对路径深度（0=根目录，1=文章目录，2=分类/标签目录）"""
+    prefix = '../' * depth  # depth=0 -> '', depth=1 -> '../', depth=2 -> '../../'
+    return f'''      <nav class="site-nav">
+        <a href="{prefix}index.html">首页</a>
+        <a href="{prefix}category/保险测评/index.html">保险测评</a>
+        <a href="{prefix}category/投资理财/index.html">投资理财</a>
+        <a href="{prefix}category/投保攻略/index.html">投保攻略</a>
+        <a href="{prefix}category/理财规划/index.html">理财规划</a>
+        <a href="{prefix}about.html">关于</a>
+      </nav>'''
 
 def render_css():
     """渲染全局 CSS 样式"""
