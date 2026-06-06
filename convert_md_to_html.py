@@ -8,8 +8,127 @@ import os
 import re
 import glob
 from datetime import datetime
-import markdown
 from html import escape
+
+# ============ 简单 Markdown 转 HTML（不依赖外部库）============
+def simple_markdown_to_html(text):
+    """简单的 Markdown 转 HTML，支持常用语法"""
+    lines = text.split('\n')
+    html_lines = []
+    in_ul = False
+    in_ol = False
+    in_table = False
+    table_rows = []
+
+    for line in lines:
+        # 表格
+        if line.strip().startswith('|'):
+            if not in_table:
+                in_table = True
+                table_rows = []
+            table_rows.append(line)
+            continue
+        else:
+            if in_table:
+                html_lines.append(convert_table(table_rows))
+                table_rows = []
+                in_table = False
+
+        # 代码块（保持原样）
+        if line.strip().startswith('```'):
+            html_lines.append(line)
+            continue
+
+        # 标题
+        if line.strip().startswith('# '):
+            html_lines.append(f'<h2>{line.strip()[2:]}</h2>')
+            continue
+        if line.strip().startswith('## '):
+            html_lines.append(f'<h3>{line.strip()[3:]}</h3>')
+            continue
+        if line.strip().startswith('### '):
+            html_lines.append(f'<h4>{line.strip()[4:]}</h4>')
+            continue
+
+        # 分隔线
+        if line.strip() == '---':
+            html_lines.append('<hr />')
+            continue
+
+        # 列表
+        if line.strip().startswith('- '):
+            if not in_ul:
+                html_lines.append('<ul>')
+                in_ul = True
+            html_lines.append(f'<li>{line.strip()[2:]}</li>')
+            continue
+        else:
+            if in_ul:
+                html_lines.append('</ul>')
+                in_ul = False
+
+        if re.match(r'^\d+\.\s', line.strip()):
+            if not in_ol:
+                html_lines.append('<ol>')
+                in_ol = True
+            content = re.sub(r'^\d+\.\s', '', line.strip())
+            html_lines.append(f'<li>{content}</li>')
+            continue
+        else:
+            if in_ol:
+                html_lines.append('</ol>')
+                in_ol = False
+
+        # 引用
+        if line.strip().startswith('> '):
+            html_lines.append(f'<blockquote><p>{line.strip()[2:]}</p></blockquote>')
+            continue
+
+        # 空行
+        if not line.strip():
+            continue
+
+        # 普通段落
+        html_lines.append(f'<p>{line}</p>')
+
+    # 关闭未关闭的标签
+    if in_ul:
+        html_lines.append('</ul>')
+    if in_ol:
+        html_lines.append('</ol>')
+    if in_table:
+        html_lines.append(convert_table(table_rows))
+
+    return '\n'.join(html_lines)
+
+def convert_table(table_rows):
+    """转换 Markdown 表格为 HTML 表格"""
+    if not table_rows:
+        return ''
+
+    # 跳过分隔行（|---|---|）
+    rows = [r for r in table_rows if not re.match(r'^\|[\s\-:|]+\|$', r)]
+
+    if not rows:
+        return ''
+
+    html = '<table>\n<thead>\n<tr>\n'
+    # 表头
+    headers = [c.strip() for c in rows[0].strip('|').split('|')]
+    for h in headers:
+        html += f'<th>{h}</th>\n'
+    html += '</tr>\n</thead>\n<tbody>\n'
+
+    # 表格内容
+    for row in rows[1:]:
+        cells = [c.strip() for c in row.strip('|').split('|')]
+        html += '<tr>\n'
+        for cell in cells:
+            html += f'<td>{cell}</td>\n'
+        html += '</tr>\n'
+
+    html += '</tbody>\n</table>'
+    return html
 
 # ============ 配置 ============
 OUTPUT_DIR = "html"
@@ -47,8 +166,8 @@ def get_slug_from_filename(md_path):
 
 def render_html_article(title, date, categories, tags, description, body_html, slug):
     """渲染单篇文章的 HTML 页面"""
-    cats = "".join(f'<a href="/category/{c}/">{c}</a>' for c in (categories or []))
-    tag_list = ", ".join(f'<a href="/tag/{t}/">{t}</a>' for t in (tags or []))
+    cats = "".join(f'<a href="../category/{c}/index.html">{c}</a>' for c in (categories or []))
+    tag_list = ", ".join(f'<a href="../tag/{t}/index.html">{t}</a>' for t in (tags or []))
     datetime_str = date.strftime("%Y-%m-%d") if isinstance(date, datetime) else str(date)[:10]
 
     return f"""<!DOCTYPE html>
@@ -186,6 +305,105 @@ def render_about():
   </main>
 </body>
 </html>"""
+
+def render_category_index(category_name, articles):
+    """渲染分类汇总页面"""
+    items = ""
+    for a in articles:
+        date_str = a["date"].strftime("%Y-%m-%d") if isinstance(a["date"], datetime) else str(a["date"])[:10]
+        items += f"""
+      <article class="post-card">
+        <time class="post-card-date">{date_str}</time>
+        <h3 class="post-card-title"><a href="../../{a['slug']}/index.html">{escape(a['title'])}</a></h3>
+        <p class="post-card-desc">{escape(a.get('description', ''))}</p>
+      </article>"""
+
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分类：{escape(category_name)} | 钱智汇</title>
+  <meta name="description" content="钱智汇 - {escape(category_name)}相关文章汇总">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="../../index.html">钱智汇</a></h1>
+      <p class="site-subtitle">保险理财指南 · 选对不选贵</p>
+      <nav class="site-nav">
+        <a href="../../index.html">首页</a>
+        <a href="../../about.html">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="posts-list">
+      <h2>分类：{escape(category_name)}</h2>
+      {items}
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
+      <p><a href="../../index.html">首页</a> · <a href="../../about.html">关于</a></p>
+    </div>
+  </footer>
+</body>
+</html>"""
+
+def render_tag_index(tag_name, articles):
+    """渲染标签汇总页面"""
+    items = ""
+    for a in articles:
+        date_str = a["date"].strftime("%Y-%m-%d") if isinstance(a["date"], datetime) else str(a["date"])[:10]
+        items += f"""
+      <article class="post-card">
+        <time class="post-card-date">{date_str}</time>
+        <h3 class="post-card-title"><a href="../../{a['slug']}/index.html">{escape(a['title'])}</a></h3>
+        <p class="post-card-desc">{escape(a.get('description', ''))}</p>
+      </article>"""
+
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>标签：{escape(tag_name)} | 钱智汇</title>
+  <meta name="description" content="钱智汇 - {escape(tag_name)}相关文章汇总">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="../../index.html">钱智汇</a></h1>
+      <p class="site-subtitle">保险理财指南 · 选对不选贵</p>
+      <nav class="site-nav">
+        <a href="../../index.html">首页</a>
+        <a href="../../about.html">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="posts-list">
+      <h2>标签：{escape(tag_name)}</h2>
+      {items}
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 钱智汇 · 保险理财指南 | 本站内容仅供参考，不构成投资建议</p>
+      <p><a href="../../index.html">首页</a> · <a href="../../about.html">关于</a></p>
+    </div>
+  </footer>
+</body>
+</html>"""
+
 
 def render_css():
     """渲染全局 CSS 样式"""
@@ -328,8 +546,8 @@ def main():
         description = fm.get("description", "")
         slug = get_slug_from_filename(md_path)  # 从文件名提取英文 slug
 
-        # 转换 Markdown 为 HTML
-        body_html = markdown.markdown(content, extensions=["tables", "fenced_code"])
+        # 转换 Markdown 为 HTML（使用内置函数，无需外部依赖）
+        body_html = simple_markdown_to_html(content)
 
         articles.append({
             "title": title,
@@ -373,7 +591,43 @@ def main():
         f.write(css)
     print("  [OK] 已生成: style.css")
 
-    print(f"\n[ALL DONE] 共生成 {len(articles)} 篇文章 + 首页 + 关于页")
+    # 生成分类汇总页面
+    print("\n[分类页面] 开始生成分类汇总页面...")
+    categories_map = {}  # {分类名: [文章列表]}
+    for article in articles:
+        for cat in article.get("categories", []):
+            if cat not in categories_map:
+                categories_map[cat] = []
+            categories_map[cat].append(article)
+
+    for cat_name, cat_articles in categories_map.items():
+        cat_dir = os.path.join(OUTPUT_DIR, "category", cat_name)
+        os.makedirs(cat_dir, exist_ok=True)
+        cat_html = render_category_index(cat_name, cat_articles)
+        cat_path = os.path.join(cat_dir, "index.html")
+        with open(cat_path, "w", encoding="utf-8") as f:
+            f.write(cat_html)
+        print(f"  [OK] 已生成分类页: category/{cat_name}/index.html")
+
+    # 生成标签汇总页面
+    print("\n[标签页面] 开始生成标签汇总页面...")
+    tags_map = {}  # {标签名: [文章列表]}
+    for article in articles:
+        for tag in article.get("tags", []):
+            if tag not in tags_map:
+                tags_map[tag] = []
+            tags_map[tag].append(article)
+
+    for tag_name, tag_articles in tags_map.items():
+        tag_dir = os.path.join(OUTPUT_DIR, "tag", tag_name)
+        os.makedirs(tag_dir, exist_ok=True)
+        tag_html = render_tag_index(tag_name, tag_articles)
+        tag_path = os.path.join(tag_dir, "index.html")
+        with open(tag_path, "w", encoding="utf-8") as f:
+            f.write(tag_html)
+        print(f"  [OK] 已生成标签页: tag/{tag_name}/index.html")
+
+    print(f"\n[ALL DONE] 共生成 {len(articles)} 篇文章 + {len(categories_map)} 个分类页 + {len(tags_map)} 个标签页")
     print(f"[DIR] 输出目录: ./{OUTPUT_DIR}/")
     print(f"[NEXT] 推送 html/ 内容到 GitHub 即可上线")
 
