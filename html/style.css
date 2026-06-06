@@ -86,6 +86,13 @@ body {
   margin: 16px 0;
   color: var(--text-light);
 }
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border-radius: var(--radius);
+}
 .post-content code {
   background: var(--bg-warm);
   padding: 2px 6px;
